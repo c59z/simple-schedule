@@ -1,0 +1,42 @@
+{
+  "Page": {
+    "eyebrow": "日程清单",
+    "description": "每天维护一组简单 todo：可以新增、修改、删除，也可以按需标记完成。",
+    "progress": "已完成 {completed} / {total}"
+  },
+  "Common": {
+    "localeCode": "zh-CN"
+  },
+  "Locale": {
+    "label": "语言",
+    "zh": "中文",
+    "en": "English"
+  },
+  "Sidebar": {
+    "eyebrow": "日期筛选",
+    "description": "左侧负责切换日期和查看最近清单，右侧专注当天的 todo。",
+    "jump": "跳转",
+    "previous": "前一天",
+    "today": "今天",
+    "next": "后一天",
+    "recent": "最近清单",
+    "empty": "还没有保存过 todo 清单。",
+    "recentCount": "完成 {completed} / {total}"
+  },
+  "Todo": {
+    "eyebrow": "TodoList",
+    "title": "当天待办",
+    "add": "新增 Todo",
+    "create": "添加",
+    "edit": "修改",
+    "save": "保存",
+    "delete": "删除",
+    "cancel": "取消",
+    "markDone": "标记完成",
+    "markOpen": "取消完成",
+    "titlePlaceholder": "输入一条新的待办",
+    "detailsPlaceholder": "补充说明，可不填",
+    "emptyTitle": "今天还没有 Todo",
+    "emptyDescription": "点击右上角“新增 Todo”添加第一条待办；这里会固定占位，避免页面空掉。"
+  }
+}

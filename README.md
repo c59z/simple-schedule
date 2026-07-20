@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Simple Schedule MVP
 
-## Getting Started
+This project is a minimal schedule planner built with Next.js 16, React 19, PostgreSQL, and Drizzle ORM. The MVP focuses on one daily planning screen, but the internal structure is intentionally split so the feature can be moved into a larger application later.
 
-First, run the development server:
+## Stack
+
+- Next.js 16 App Router
+- next-intl with cookie-based locale switching
+- React 19 Server Components and Server Actions
+- PostgreSQL in Docker
+- Drizzle ORM and Drizzle Kit
+- Tailwind CSS 4
+
+## Local setup
+
+1. Create a local env file.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Start PostgreSQL with Docker.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+docker compose up -d
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Apply the database schema.
 
-## Learn More
+```bash
+pnpm db:generate
+pnpm db:migrate
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Start the app.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Open `http://localhost:3000/schedule`.
 
-## Deploy on Vercel
+## Available scripts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `pnpm dev` starts the local Next.js app.
+- `pnpm lint` runs ESLint.
+- `pnpm build` creates a production build.
+- `pnpm db:generate` creates SQL migrations from the Drizzle schema.
+- `pnpm db:migrate` applies generated migrations.
+- `pnpm db:push` pushes the schema directly to the database for quick iteration.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Current MVP scope
+
+- View a single day schedule
+- Jump to previous, next, or custom date
+- Switch between Chinese and English
+- Add a todo for the selected day
+- Edit or delete a todo
+- Mark a todo as complete or keep it open
+- Show an empty-state placeholder when the selected day has no todos
+
+## Project structure
+
+- `app/` keeps route files only.
+- `components/schedule/` contains page-level UI blocks.
+- `messages/` stores localized text.
+- `i18n/` contains the `next-intl` request config.
+- `features/schedule/todos/` contains todo validation, actions, services, and repository functions.
+- `features/schedule/lib/` contains shared formatting logic.
+- `db/` contains schema, migrations, and database setup.
+
+## Notes for future integration
+
+- UI mutations already go through Server Actions instead of talking to the database directly.
+- REST endpoints are available for other frontends or future integration points.
+- The schedule feature can later grow user ownership, recurring events, reminders, calendars, and permissions without rewriting the route layer.

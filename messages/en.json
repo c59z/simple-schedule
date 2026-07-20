@@ -1,0 +1,42 @@
+{
+  "Page": {
+    "eyebrow": "Schedule List",
+    "description": "Keep a simple todo list for each day: add, edit, delete, and optionally mark items as complete.",
+    "progress": "{completed} / {total} completed"
+  },
+  "Common": {
+    "localeCode": "en-US"
+  },
+  "Locale": {
+    "label": "Language",
+    "zh": "中文",
+    "en": "English"
+  },
+  "Sidebar": {
+    "eyebrow": "Filters",
+    "description": "The left side handles dates and recent lists, while the right side focuses on today's todos.",
+    "jump": "Go",
+    "previous": "Previous",
+    "today": "Today",
+    "next": "Next",
+    "recent": "Recent lists",
+    "empty": "No saved todo lists yet.",
+    "recentCount": "{completed} / {total} completed"
+  },
+  "Todo": {
+    "eyebrow": "TodoList",
+    "title": "Today's todos",
+    "add": "New Todo",
+    "create": "Add",
+    "edit": "Edit",
+    "save": "Save",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "markDone": "Mark done",
+    "markOpen": "Mark open",
+    "titlePlaceholder": "Type a new todo",
+    "detailsPlaceholder": "Optional details",
+    "emptyTitle": "No todos for this day",
+    "emptyDescription": "Use the New Todo button to add the first item. This placeholder keeps the day view grounded when the list is empty."
+  }
+}
