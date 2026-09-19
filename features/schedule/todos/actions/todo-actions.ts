@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import {
   createScheduleTodo,
   removeScheduleTodo,
+  removeScheduleDay,
   updateScheduleTodo,
 } from "@/features/schedule/todos/lib/todo-service";
 
@@ -21,7 +22,7 @@ export async function updateTodoAction(formData: FormData) {
   const entries = formEntries(formData);
   const id = String(entries.id);
 
-  await updateScheduleTodo(id, entries);
+  await updateScheduleTodo(id, { ...entries, isOptional: entries.isOptional === "true" });
   revalidatePath("/schedule");
 }
 
@@ -40,5 +41,10 @@ export async function deleteTodoAction(formData: FormData) {
   const id = String(entries.id);
 
   await removeScheduleTodo(id);
+  revalidatePath("/schedule");
+}
+
+export async function deleteDayAction(date: string) {
+  await removeScheduleDay(date);
   revalidatePath("/schedule");
 }

@@ -2,7 +2,7 @@
   "Page": {
     "eyebrow": "日程清单",
     "description": "每天维护一组简单 todo：可以新增、修改、删除，也可以按需标记完成。",
-    "progress": "已完成 {completed} / {total}"
+    "progress": "必做已完成 {completed} / {total}"
   },
   "Common": {
     "localeCode": "zh-CN"
@@ -19,9 +19,52 @@
     "previous": "前一天",
     "today": "今天",
     "next": "后一天",
-    "recent": "最近清单",
+    "recent": "日程清单",
+    "search": "搜索日期或清单摘要",
+    "loading": "正在切换日期…",
+    "noResults": "没有匹配的日程",
+    "emptyDay": "当天暂无待办",
     "empty": "还没有保存过 todo 清单。",
-    "recentCount": "完成 {completed} / {total}"
+    "recentCount": "必做 {completed} / {total}"
+  },
+  "Settings": {"title":"设置"},
+  "DeleteDay": {"button":"删除当天日程","confirm":"确定删除 {date} 的全部 {count} 条待办吗？包含已完成和可选待办，此操作无法撤销。","cancel":"取消","delete":"确认删除","pending":"正在删除…","success":"当天日程已删除。","error":"删除失败，请重试。"},
+  "Import": {
+    "open": "导入日程…",
+    "title": "导入日程",
+    "close": "关闭",
+    "hint": "选择一个或多个 UTF-8 Markdown 文件。默认采用标题日期，可在预览中修改。按名称去重追加，不覆盖现有待办；普通文本默认为未完成。最多 1000 个文件、合计 10 MB。",
+    "files": "选择 MD 文件（可多选）",
+    "date": "归属日期",
+    "conflict": "正文或文件名出现其他日期：{dates}，请核对归属日期。",
+    "dateRequired": "请选择有效的归属日期。",
+    "tasks": "预览 {count} 条待办",
+    "optional": "（可选）",
+    "invalid": "文件无效或无待办：仅支持 UTF-8 MD，单文件最多 256 KB、500 条待办，每条最多 160 字。",
+    "limit": "最多选择 1000 个文件，合计不能超过 10 MB。",
+    "confirm": "确认导入",
+    "reading": "正在读取文件…",
+    "progress": "正在导入 {current}/{total}：{name}",
+    "result": "成功 {success} 个文件，失败 {failed} 个文件。",
+    "added": "新增 {added} 条，跳过重复 {skipped} 条。",
+    "failed": "导入未确认成功，请重试；重试会跳过重复待办。"
+  },
+  "Export": {
+    "single": "下载当天 MD",
+    "batch": "批量下载",
+    "close": "关闭",
+    "hint": "按年、月、日勾选日程，下载为 ZIP。可选待办与完成状态会一并保留。",
+    "all": "全部日程",
+    "year": "选择 {year} 年",
+    "month": "选择 {month} 月",
+    "empty": "暂无可批量下载的日程。",
+    "download": "下载选中的 {count} 天",
+    "receiving": "正在打包并接收文件，已接收 {size} KB…",
+    "result": "成功 {success} 件，失败 {failed} 件。",
+    "saveHint": "文件已交给浏览器下载，请在下载列表中查看。",
+    "emptyDay": "当天没有待办，可能已被删除。",
+    "readFailed": "读取日程失败，请重试。",
+    "downloadFailed": "下载未完成，请重试。"
   },
   "Todo": {
     "eyebrow": "TodoList",
@@ -35,7 +78,8 @@
     "markDone": "标记完成",
     "markOpen": "取消完成",
     "titlePlaceholder": "输入一条新的待办",
-    "detailsPlaceholder": "补充说明，可不填",
+    "optional": "可选",
+    "optionalHint": "可选待办（不计入必做进度）",
     "emptyTitle": "今天还没有 Todo",
     "emptyDescription": "点击右上角“新增 Todo”添加第一条待办；这里会固定占位，避免页面空掉。"
   }

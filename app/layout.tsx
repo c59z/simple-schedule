@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages } from "next-intl/server";
+import { getLocale } from "next-intl/server";
+import { LocaleProvider } from "@/components/locale-provider";
 import { Geist_Mono, Noto_Sans_SC } from "next/font/google";
 import "./globals.css";
 
@@ -29,7 +29,6 @@ export default function RootLayout({
 
 async function RootLayoutInner({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
-  const messages = await getMessages();
 
   return (
     <html
@@ -37,12 +36,12 @@ async function RootLayoutInner({ children }: { children: React.ReactNode }) {
       className={`${notoSansSc.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full overflow-x-hidden bg-[#eef6ff] text-slate-900">
-        <NextIntlClientProvider locale={locale} messages={messages}>
+        <LocaleProvider locale={locale}>
           <div className="relative min-h-full">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.92),_transparent_22%),radial-gradient(circle_at_85%_0%,_rgba(164,209,255,0.34),_transparent_20%),linear-gradient(180deg,_#f5fbff_0%,_#e5f2ff_56%,_#f2f8ff_100%)]" />
             <div className="relative flex min-h-full flex-col">{children}</div>
           </div>
-        </NextIntlClientProvider>
+        </LocaleProvider>
       </body>
     </html>
   );

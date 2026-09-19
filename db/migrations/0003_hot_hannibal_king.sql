@@ -1,0 +1,1 @@
+ALTER TABLE "schedule_todos" ADD COLUMN "is_optional" boolean DEFAULT false NOT NULL;

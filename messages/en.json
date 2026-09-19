@@ -2,7 +2,7 @@
   "Page": {
     "eyebrow": "Schedule List",
     "description": "Keep a simple todo list for each day: add, edit, delete, and optionally mark items as complete.",
-    "progress": "{completed} / {total} completed"
+    "progress": "Required: {completed} / {total} completed"
   },
   "Common": {
     "localeCode": "en-US"
@@ -19,9 +19,52 @@
     "previous": "Previous",
     "today": "Today",
     "next": "Next",
-    "recent": "Recent lists",
+    "recent": "Daily lists",
+    "search": "Search dates or summaries",
+    "loading": "Switching date…",
+    "noResults": "No matching days",
+    "emptyDay": "No todos for this day",
     "empty": "No saved todo lists yet.",
-    "recentCount": "{completed} / {total} completed"
+    "recentCount": "Required: {completed} / {total}"
+  },
+  "Settings": {"title":"Settings"},
+  "DeleteDay": {"button":"Delete this day","confirm":"Delete all {count} tasks for {date}, including completed and optional tasks? This cannot be undone.","cancel":"Cancel","delete":"Confirm deletion","pending":"Deleting…","success":"This day's schedule has been deleted.","error":"Deletion failed. Please retry."},
+  "Import": {
+    "open": "Import schedules…",
+    "title": "Import schedules",
+    "close": "Close",
+    "hint": "Choose one or more UTF-8 Markdown files. The heading date is used by default; adjust it in the preview. New titles are appended without overwriting existing tasks. Plain text tasks start incomplete. Up to 1,000 files and 10 MB total.",
+    "files": "Choose MD files (multiple allowed)",
+    "date": "Schedule date",
+    "conflict": "Other dates found in the body or filename: {dates}. Check the schedule date.",
+    "dateRequired": "Choose a valid schedule date.",
+    "tasks": "Preview {count} tasks",
+    "optional": "(Optional) ",
+    "invalid": "Invalid file or no tasks: UTF-8 MD only, up to 256 KB, 500 tasks and 160 characters per task.",
+    "limit": "Select up to 1,000 files with a combined size of 10 MB.",
+    "confirm": "Confirm import",
+    "reading": "Reading files…",
+    "progress": "Importing {current}/{total}: {name}",
+    "result": "Succeeded: {success} files. Failed: {failed} files.",
+    "added": "Added {added}; skipped {skipped} duplicates.",
+    "failed": "Import could not be confirmed. Retry safely; duplicate tasks will be skipped."
+  },
+  "Export": {
+    "single": "Download day MD",
+    "batch": "Batch download",
+    "close": "Close",
+    "hint": "Select years, months or days to download a ZIP. Completion and optional status are preserved.",
+    "all": "All days",
+    "year": "Select year {year}",
+    "month": "Select month {month}",
+    "empty": "No saved days to export.",
+    "download": "Download {count} selected days",
+    "receiving": "Packing and receiving files: {size} KB received…",
+    "result": "Succeeded: {success}. Failed: {failed}.",
+    "saveHint": "The file was sent to your browser. Check your downloads list.",
+    "emptyDay": "No todos for this day; they may have been deleted.",
+    "readFailed": "Could not read this day. Please retry.",
+    "downloadFailed": "Download incomplete. Please retry."
   },
   "Todo": {
     "eyebrow": "TodoList",
@@ -35,7 +78,8 @@
     "markDone": "Mark done",
     "markOpen": "Mark open",
     "titlePlaceholder": "Type a new todo",
-    "detailsPlaceholder": "Optional details",
+    "optional": "Optional",
+    "optionalHint": "Optional todo (excluded from required progress)",
     "emptyTitle": "No todos for this day",
     "emptyDescription": "Use the New Todo button to add the first item. This placeholder keeps the day view grounded when the list is empty."
   }

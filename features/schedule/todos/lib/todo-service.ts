@@ -1,9 +1,11 @@
 import { isValid, parseISO } from "date-fns";
+import { z } from "zod";
 
 import { formatScheduleDate } from "@/features/schedule/lib/format";
 import {
   createTodo,
   deleteTodo,
+  deleteTodosByDate,
   listRecentTodoDays,
   listTodosByDate,
   updateTodo,
@@ -40,6 +42,7 @@ export async function createScheduleTodo(
   input: Record<string, FormDataEntryValue>,
 ) {
   const parsed = createTodoSchema.parse({
+    isOptional: input.isOptional === "true",
     todoDate: input.todoDate,
     title: input.title,
     details: input.details,
@@ -53,6 +56,7 @@ export async function updateScheduleTodo(
   input: Record<string, FormDataEntryValue | string | boolean | undefined>,
 ) {
   const parsed = updateTodoSchema.parse({
+    isOptional: input.isOptional === undefined ? undefined : input.isOptional === "true" || input.isOptional === true,
     title: input.title,
     details:
       input.details === undefined
@@ -69,4 +73,8 @@ export async function updateScheduleTodo(
 
 export async function removeScheduleTodo(id: string) {
   return deleteTodo(id);
+}
+
+export async function removeScheduleDay(date: string) {
+  await deleteTodosByDate(z.iso.date().parse(date));
 }

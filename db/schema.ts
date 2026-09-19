@@ -89,6 +89,7 @@ export const scheduleTodos = pgTable(
     todoDate: date("todo_date", { mode: "string" }).notNull(),
     title: text("title").notNull(),
     details: text("details"),
+    isOptional: boolean("is_optional").notNull().default(false),
     isCompleted: boolean("is_completed").notNull().default(false),
     sortOrder: integer("sort_order").notNull().default(0),
     createdAt: timestamp("created_at", {

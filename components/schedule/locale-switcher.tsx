@@ -1,4 +1,6 @@
-import { getLocale, getTranslations } from "next-intl/server";
+"use client";
+
+import { useLocale, useTranslations } from "next-intl";
 
 import { setLocaleAction } from "@/features/locale/actions";
 import { locales } from "@/i18n/config";
@@ -7,9 +9,9 @@ type LocaleSwitcherProps = {
   redirectTo: string;
 };
 
-export async function LocaleSwitcher({ redirectTo }: LocaleSwitcherProps) {
-  const locale = await getLocale();
-  const t = await getTranslations("Locale");
+export function LocaleSwitcher({ redirectTo }: LocaleSwitcherProps) {
+  const locale = useLocale();
+  const t = useTranslations("Locale");
 
   return (
     <section className="rounded-[1.4rem] border border-[#dbe9fb] bg-[#f8fbff] p-4">

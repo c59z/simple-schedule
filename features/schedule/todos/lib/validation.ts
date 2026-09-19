@@ -22,12 +22,14 @@ export const todoDateSchema = z
   });
 
 export const createTodoSchema = z.object({
+  isOptional: z.boolean().default(false),
   todoDate: todoDateSchema,
   title: z.string().trim().min(1).max(160),
   details: z.string().trim().max(1000).optional().default(""),
 });
 
 export const updateTodoSchema = z.object({
+  isOptional: z.boolean().optional(),
   title: z.string().trim().min(1).max(160).optional(),
   details: z.string().trim().max(1000).nullable().optional(),
   isCompleted: z.boolean().optional(),

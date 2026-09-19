@@ -2,6 +2,7 @@ import { asc, desc, eq, sql } from "drizzle-orm";
 
 import { db } from "@/db/client";
 import { scheduleTodos } from "@/db/schema";
+import type { ImportTodo } from "../lib/import-markdown";
 import type {
   ScheduleTodo,
   ScheduleTodoDaySummary,
@@ -16,6 +17,7 @@ function mapTodo(record: typeof scheduleTodos.$inferSelect): ScheduleTodo {
     title: record.title,
     details: record.details,
     isCompleted: record.isCompleted,
+    isOptional: record.isOptional,
     sortOrder: record.sortOrder,
     createdAt: record.createdAt,
     updatedAt: record.updatedAt,
@@ -49,6 +51,7 @@ export async function createTodo(input: ScheduleTodoInput) {
     .values({
       todoDate: input.todoDate,
       title: input.title,
+      isOptional: input.isOptional,
       details: input.details || null,
       sortOrder: Number(nextSortOrder),
     })
@@ -81,19 +84,22 @@ export async function deleteTodo(id: string) {
   return record ? mapTodo(record) : null;
 }
 
-export async function listRecentTodoDays(limit = 20) {
+export async function deleteTodosByDate(todoDate: string) {
+  await db.delete(scheduleTodos).where(eq(scheduleTodos.todoDate, todoDate));
+}
+
+export async function listRecentTodoDays() {
   const records = await db
     .select({
       todoDate: scheduleTodos.todoDate,
-      totalCount: sql<number>`count(*)::int`,
+      totalCount: sql<number>`count(*) filter (where not ${scheduleTodos.isOptional})::int`,
       completedCount:
-        sql<number>`count(*) filter (where ${scheduleTodos.isCompleted})::int`,
+        sql<number>`count(*) filter (where ${scheduleTodos.isCompleted} and not ${scheduleTodos.isOptional})::int`,
       firstTitle: sql<string>`min(${scheduleTodos.title})`,
     })
     .from(scheduleTodos)
     .groupBy(scheduleTodos.todoDate)
-    .orderBy(desc(scheduleTodos.todoDate))
-    .limit(limit);
+    .orderBy(desc(scheduleTodos.todoDate));
 
   return records.map(
     (record): ScheduleTodoDaySummary => ({
@@ -103,4 +109,22 @@ export async function listRecentTodoDays(limit = 20) {
       firstTitle: record.firstTitle,
     }),
   );
+}
+
+export async function importTodos(todoDate: string, todos: ImportTodo[]) {
+  return db.transaction(async (transaction) => {
+    // Serialize imports for the same day to make retries idempotent.
+    await transaction.execute(sql`select pg_advisory_xact_lock(hashtext(${`schedule-import:${todoDate}`}))`);
+    const existing = await transaction.select().from(scheduleTodos).where(eq(scheduleTodos.todoDate, todoDate));
+    const titles = new Set(existing.map((todo) => todo.title.trim()));
+    let order = existing.reduce((max, todo) => Math.max(max, todo.sortOrder), -1) + 1;
+    const additions = [];
+    for (const todo of todos) {
+      if (titles.has(todo.title)) continue;
+      titles.add(todo.title);
+      additions.push({ ...todo, todoDate, sortOrder: order++ });
+    }
+    if (additions.length) await transaction.insert(scheduleTodos).values(additions);
+    return { added: additions.length, skipped: todos.length - additions.length };
+  });
 }

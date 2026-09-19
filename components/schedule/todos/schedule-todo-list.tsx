@@ -11,15 +11,19 @@ import {
   updateTodoAction,
 } from "@/features/schedule/todos/actions/todo-actions";
 import type { ScheduleTodo } from "@/features/schedule/todos/types/todo";
+import { ExportControls } from "./export-controls";
+import { DeleteDayButton } from "./delete-day-button";
 
 type ScheduleTodoListProps = {
   selectedDate: string;
   todos: ScheduleTodo[];
+  dates: string[];
 };
 
 export function ScheduleTodoList({
   selectedDate,
   todos,
+  dates = [],
 }: ScheduleTodoListProps) {
   const t = useTranslations("Todo");
   const [isCreating, setIsCreating] = useState(false);
@@ -48,11 +52,12 @@ export function ScheduleTodoList({
       </div>
 
       <div className="space-y-4 px-5 py-5">
+        <ExportControls selectedDate={selectedDate} dates={dates} />
+        <DeleteDayButton date={selectedDate} count={todos.length} />
         {isCreating ? (
           <form
-            action={createTodoAction}
+            action={async (data) => { await createTodoAction(data); setIsCreating(false); }}
             className="rounded-lg border border-[#dbe9fb] bg-[#f8fbff] p-4"
-            onSubmit={() => setIsCreating(false)}
           >
             <input type="hidden" name="todoDate" value={selectedDate} />
             <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_180px]">
@@ -72,12 +77,10 @@ export function ScheduleTodoList({
                 {t("create")}
               </button>
             </div>
-            <textarea
-              name="details"
-              maxLength={1000}
-              placeholder={t("detailsPlaceholder")}
-              className="mt-3 min-h-20 w-full resize-y rounded-md border border-[#d5e5fb] bg-white px-3 py-2 text-sm leading-6 text-[#17345f] outline-none transition focus:border-[#7ebdf7]"
-            />
+            <label className="mt-3 flex items-center gap-2 text-sm text-[#6681ad]">
+              <input type="checkbox" name="isOptional" value="true" />
+              {t("optionalHint")}
+            </label>
           </form>
         ) : null}
 
@@ -103,7 +106,7 @@ export function ScheduleTodoList({
                   className="rounded-lg border border-[#dbe9fb] bg-[#fbfdff] p-4"
                 >
                   {isEditing ? (
-                    <form action={updateTodoAction} className="space-y-3">
+                    <form action={async (data) => { await updateTodoAction(data); setEditingId(null); }} className="space-y-3">
                       <input type="hidden" name="id" value={todo.id} />
                       <input
                         name="title"
@@ -112,16 +115,13 @@ export function ScheduleTodoList({
                         defaultValue={todo.title}
                         className="h-11 w-full rounded-md border border-[#d5e5fb] bg-white px-3 text-sm font-semibold text-[#17345f] outline-none transition focus:border-[#7ebdf7]"
                       />
-                      <textarea
-                        name="details"
-                        maxLength={1000}
-                        defaultValue={todo.details ?? ""}
-                        className="min-h-20 w-full resize-y rounded-md border border-[#d5e5fb] bg-white px-3 py-2 text-sm leading-6 text-[#17345f] outline-none transition focus:border-[#7ebdf7]"
-                      />
+                      <label className="flex items-center gap-2 text-sm text-[#6681ad]">
+                        <input type="checkbox" name="isOptional" value="true" defaultChecked={todo.isOptional} />
+                        {t("optionalHint")}
+                      </label>
                       <div className="flex flex-wrap gap-2">
                         <button
                           type="submit"
-                          onClick={() => setEditingId(null)}
                           className="inline-flex h-9 items-center gap-2 rounded-md bg-[#2f83e6] px-3 text-sm font-bold text-white transition hover:bg-[#256fca]"
                         >
                           <Save size={15} aria-hidden />
@@ -138,8 +138,8 @@ export function ScheduleTodoList({
                       </div>
                     </form>
                   ) : (
-                    <div className="flex gap-3">
-                      <form action={toggleTodoAction} className="pt-0.5">
+                    <div className="flex items-center gap-3">
+                      <form action={toggleTodoAction} className="shrink-0">
                         <input type="hidden" name="id" value={todo.id} />
                         <input
                           type="hidden"
@@ -165,17 +165,13 @@ export function ScheduleTodoList({
                       <div className="min-w-0 flex-1">
                         <p
                           className={[
-                            "text-base font-bold text-[#17345f]",
+                            "break-words text-base leading-7 font-bold text-[#17345f]",
                             todo.isCompleted ? "text-[#7d91ad] line-through" : "",
                           ].join(" ")}
                         >
                           {todo.title}
+                          {todo.isOptional && <span className="ml-2 inline-block rounded-full bg-[#e8f4ff] px-2 py-0.5 text-xs font-medium text-[#4685b8]">{t("optional")}</span>}
                         </p>
-                        {todo.details ? (
-                          <p className="mt-1 whitespace-pre-wrap text-sm leading-6 text-[#6681ad]">
-                            {todo.details}
-                          </p>
-                        ) : null}
                       </div>
 
                       <div className="flex shrink-0 gap-2">
